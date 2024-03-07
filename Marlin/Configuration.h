@@ -1351,10 +1351,10 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  // Probe connected to BLTouch port
+#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-#define USE_PROBE_FOR_Z_HOMING
+//#define USE_PROBE_FOR_Z_HOMING  // Manual mesh not have a probe
 
 /**
  * Z_MIN_PROBE_PIN
@@ -1383,7 +1383,7 @@
  * Use G29 repeatedly, adjusting the Z height at each point with movement commands
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
-//#define PROBE_MANUALLY
+#define PROBE_MANUALLY  // Manual mesh version
 
 /**
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
@@ -1411,7 +1411,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-#define BLTOUCH  // 3D/CR/BLTouch version
+//#define BLTOUCH
 
 /**
  * MagLev V4 probe by MDD
@@ -1575,7 +1575,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { -31.8, -40.5, 0 }  // Ender3S1 Configs
+#define NOZZLE_TO_PROBE_OFFSET { 0, 0, 0 }  // MRiscoC BLTouch offset for support: https://www.thingiverse.com/thing:4605354 (z-offset = -1.80 mm)  // Manual mesh use the nozzle as probe
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
@@ -1658,13 +1658,13 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   5 // (mm) Z Clearance for Deploy/Stow  // MRiscoC Increase speed
-#define Z_CLEARANCE_BETWEEN_PROBES  5 // (mm) Z Clearance between probe points  // MRiscoC Increase probe compatibility
-#define Z_CLEARANCE_MULTI_PROBE     5 // (mm) Z Clearance between multiple probes  // MRiscoC Increase speed
+#define Z_CLEARANCE_DEPLOY_PROBE   10 // (mm) Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_BETWEEN_PROBES  5 // (mm) Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE     5 // (mm) Z Clearance between multiple probes
 #define Z_PROBE_ERROR_TOLERANCE     3 // (mm) Tolerance for early trigger (<= -probe.offset.z + ZPET)
 //#define Z_AFTER_PROBING           5 // (mm) Z position after probing is done
 
-#define Z_PROBE_LOW_POINT          -3 // (mm) Farthest distance below the trigger-point to go before stopping  // MRiscoC allows reach lower points
+#define Z_PROBE_LOW_POINT          -2 // (mm) Farthest distance below the trigger-point to go before stopping
 
 // For M851 provide ranges for adjusting the X, Y, and Z probe offsets
 //#define PROBE_OFFSET_XMIN -50   // (mm)
@@ -1675,7 +1675,7 @@
 //#define PROBE_OFFSET_ZMAX  20   // (mm)
 
 // Enable the M48 repeatability test to test probe accuracy
-#define Z_MIN_PROBE_REPEATABILITY_TEST  // MRiscoC Enable M48 repeatability test
+//#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1695,10 +1695,10 @@
   //#define WAIT_FOR_BED_HEATER     // Wait for bed to heat back up between probes (to improve accuracy)
   //#define WAIT_FOR_HOTEND         // Wait for hotend to heat back up between probes (to improve accuracy & prevent cold extrude)
 #endif
-#define PROBING_FANS_OFF          // Turn fans off when probing  // MRiscoC Turn fans off for avoid vibrations and interference
+//#define PROBING_FANS_OFF          // Turn fans off when probing
 //#define PROBING_ESTEPPERS_OFF     // Turn all extruder steppers off when probing
 //#define PROBING_STEPPERS_OFF      // Turn all steppers off (unless needed to hold position) when probing (including extruders)
-#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors  // MRiscoC Wait for stability
+//#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
 
 // Require minimum nozzle and/or bed temperature for probing
 //#define PREHEAT_BEFORE_PROBING
@@ -1815,16 +1815,16 @@
 // @section geometry
 
 // The size of the printable area
-#define X_BED_SIZE 220  // MRiscoC Max usable bed size
-#define Y_BED_SIZE 220  // MRiscoC Max usable bed size
+#define X_BED_SIZE 700  // MRiscoC Max usable bed size
+#define Y_BED_SIZE 230  // MRiscoC Max usable bed size
 
 // Travel limits (linear=mm, rotational=°) after homing, corresponding to endstop positions.
-#define X_MIN_POS -10  // MRiscoC Stock physical limit
-#define Y_MIN_POS -8  // MRiscoC Stock physical limit
+#define X_MIN_POS 0  // MRiscoC Stock physical limit
+#define Y_MIN_POS 0  // MRiscoC Stock physical limit
 #define Z_MIN_POS 0
-#define X_MAX_POS 230  // MRiscoC Stock physical limit
-#define Y_MAX_POS 220  // MRiscoC Stock physical limit
-#define Z_MAX_POS 270  // Ender Configs
+#define X_MAX_POS 700  // MRiscoC Stock physical limit
+#define Y_MAX_POS 231  // MRiscoC Stock physical limit
+#define Z_MAX_POS 250  // Ender Configs
 //#define I_MIN_POS 0
 //#define I_MAX_POS 50
 //#define J_MIN_POS 0
@@ -1897,9 +1897,9 @@
   #define FIL_RUNOUT_ENABLED_DEFAULT false // Enable the sensor on startup. Override with M412 followed by M500.
   #define NUM_RUNOUT_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
 
-  #define FIL_RUNOUT_STATE     HIGH        // Pin state indicating that filament is NOT present.  // Board v301 Configs
-  //#define FIL_RUNOUT_PULLUP               // Use internal pullup for filament runout pins.  // Board v301 Configs
-  #define FIL_RUNOUT_PULLDOWN           // Use internal pulldown for filament runout pins.  // Board v301 Configs
+  #define FIL_RUNOUT_STATE     LOW        // Pin state indicating that filament is NOT present.
+  #define FIL_RUNOUT_PULLUP               // Use internal pullup for filament runout pins.
+  //#define FIL_RUNOUT_PULLDOWN           // Use internal pulldown for filament runout pins.
   //#define WATCH_ALL_RUNOUT_SENSORS      // Execute runout script on any triggering sensor, not only for the active extruder.
                                           // This is automatically enabled for MIXING_EXTRUDERs.
 
@@ -1944,7 +1944,7 @@
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
   // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
-  #define FILAMENT_RUNOUT_DISTANCE_MM 200  // MRiscoC Customizable by menu
+  #define FILAMENT_RUNOUT_DISTANCE_MM 25  // MRiscoC Customizable by menu
 
   #ifdef FILAMENT_RUNOUT_DISTANCE_MM
     // Enable this option to use an encoder disc that toggles the runout pin
@@ -2035,9 +2035,9 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-#define AUTO_BED_LEVELING_BILINEAR  // MRiscoC BLTouch auto level
+//#define AUTO_BED_LEVELING_BILINEAR
 //#define AUTO_BED_LEVELING_UBL
-//#define MESH_BED_LEVELING
+#define MESH_BED_LEVELING  // Manual Mesh
 
 /**
  * Commands to execute at the end of G29 probing.
@@ -2058,7 +2058,7 @@
  */
 #define PREHEAT_BEFORE_LEVELING  // MRiscoC Heatting to compensate thermal expansions
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
-  #define LEVELING_NOZZLE_TEMP   0   // (°C) Only applies to E0 at this time  // MRiscoC No necessary for BLTouch
+  #define LEVELING_NOZZLE_TEMP 175   // (°C) Only applies to E0 at this time  // Preheat nozzle without oozing
   #define LEVELING_BED_TEMP     50
 #endif
 
@@ -2128,10 +2128,10 @@
     // Subdivision of the grid by Catmull-Rom method.
     // Synthesizes intermediate points to produce a more detailed mesh.
     //
-    //#define ABL_BILINEAR_SUBDIVISION  // Original Ender3S1 Configs set this to Enable
+    //#define ABL_BILINEAR_SUBDIVISION
     #if ENABLED(ABL_BILINEAR_SUBDIVISION)
       // Number of subdivisions between probe points
-      #define BILINEAR_SUBDIVISIONS 5  // Ender3S1 Configs
+      #define BILINEAR_SUBDIVISIONS 3
     #endif
 
   #endif
@@ -2144,7 +2144,7 @@
 
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 38              // Set Mesh bounds as an inset region of the bed  // MRiscoC Center mesh
+  #define MESH_INSET 25              // Set Mesh bounds as an inset region of the bed  // MRiscoC Center mesh
   #define GRID_MAX_POINTS_X 5      // Don't use more than 15 points per axis, implementation limited.  // MRiscoC Customizable by menu
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
@@ -2186,7 +2186,7 @@
   //=================================== Mesh ==================================
   //===========================================================================
 
-  #define MESH_INSET 38          // Set Mesh bounds as an inset region of the bed  // MRiscoC Center mesh
+  #define MESH_INSET 25          // Set Mesh bounds as an inset region of the bed  // MRiscoC Center mesh
   #define GRID_MAX_POINTS_X 5    // Don't use more than 7 points per axis, implementation limited.  // MRiscoC Customizable by menu
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
@@ -2210,13 +2210,13 @@
 #define LCD_BED_TRAMMING  // ProUI has a bed tramming menu
 
 #if ENABLED(LCD_BED_TRAMMING)
-  //#define BED_TRAMMING_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets  // ProUI use mesh insets for bed tramming
+  #define BED_TRAMMING_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
   #define BED_TRAMMING_HEIGHT      0.0        // (mm) Z height of nozzle at tramming points
   #define BED_TRAMMING_Z_HOP       5.0        // (mm) Z height of nozzle between tramming points
   //#define BED_TRAMMING_INCLUDE_CENTER       // Move to the center after the last corner
-  #define BED_TRAMMING_USE_PROBE  // Use a probe if it is available
+  //#define BED_TRAMMING_USE_PROBE
   #if ENABLED(BED_TRAMMING_USE_PROBE)
-    #define BED_TRAMMING_PROBE_TOLERANCE 0.05  // (mm)  // ProUI bed tramming wizard tolerance
+    #define BED_TRAMMING_PROBE_TOLERANCE 0.1  // (mm)
     #define BED_TRAMMING_VERIFY_RAISED        // After adjustment triggers the probe, re-probe to verify
     //#define BED_TRAMMING_AUDIO_FEEDBACK
   #endif
@@ -2265,7 +2265,7 @@
  * - Allows Z homing only when XY positions are known and trusted.
  * - If stepper drivers sleep, XY homing may be required again before Z homing.
  */
-#define Z_SAFE_HOMING  // MRiscoC Homing Z at center of bed
+//#define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
   #define Z_SAFE_HOMING_X_POINT X_CENTER  // (mm) X point for Z homing
@@ -2429,7 +2429,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT { (X_MAX_POS - 2), (Y_MAX_POS - 2), 20 }
+  #define NOZZLE_PARK_POINT { (X_BED_SIZE + 10), (Y_MAX_POS - 10), 20 }
   #define NOZZLE_PARK_MOVE          0   // Park motion: 0 = XY Move, 1 = X Only, 2 = Y Only, 3 = X before Y, 4 = Y before X
   #define NOZZLE_PARK_Z_RAISE_MIN   0   // (mm) Always raise Z by at least this distance  // MRiscoC uses Park Z Raise from 0 to avoid backlash issues
   #define NOZZLE_PARK_XY_FEEDRATE 100   // (mm/s) X and Y axes feedrate (also used for delta Z axis)
@@ -3424,7 +3424,7 @@
 #if ENABLED(DWIN_LCD_PROUI)
   #if PROUI_EX
     #if ENABLED(LCD_BED_TRAMMING)
-      #define HAS_TRAMMING_WIZARD 1
+      //#define HAS_TRAMMING_WIZARD 1  // Manual mesh not have a probe
     #endif
     #define HAS_GCODE_PREVIEW 1
     #define HAS_TOOLBAR 1
